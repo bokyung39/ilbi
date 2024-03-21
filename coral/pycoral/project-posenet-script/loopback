@@ -1,0 +1,21 @@
+sudo depmod -a
+
+sudo modprobe v4l2loopback video_nr=3,4,7 card_label="device number 3","the number four","the last one"
+
+ffmpeg -f v4l2 -i /dev/video0 -codec copy -f v4l2 /dev/video3 -codec copy -f v4l2 /dev/video4
+
+$ git clone https://github.com/umlaeute/v4l2loopback.git
+$ cd v4l2loopback
+$ make
+$ sudo make install
+
+
+
+
+12:03
+vlc -vvv v4l2:///dev/video4 --sout '#transcode{vcodec=mjpg, acodec=mp3, ab=128, channels=2, samplerate=44100}:std{access=http{mime=multipart/x-mixed-replace;boundary=7b3cc56e5f51db803f790dad720ed50a},mux=mpjpeg, dst=172.20.10.7:8080}'
+
+
+
+
+
